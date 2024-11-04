@@ -18,6 +18,14 @@ const msg = ref('Hello World!')
     2. Rendering failed when using import-map with CDN link.
 
       Steps to reproduce: src/template/welcome.vue lines 37-38
+
+    3. Potential listener leak detected:
+      Uncaught Error: [001] potential listener LEAK detected, having 200 listeners already. MOST frequent listener (1):
+      Error
+          at Stacktrace.create (MonacoEditor-CSdcTlIW.js?v=05f73935:2666:21)
+          at LanguageSelection._event [as _onDidChangeLanguages] (MonacoEditor-CSdcTlIW.js?v=05f73935:2779:46)
+          at get onDidChange (MonacoEditor-CSdcTlIW.js?v=05f73935:165517:35)
+          ...
   -->
   <el-input v-model="msg" placeholder="el-input" />
 </template>
