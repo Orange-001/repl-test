@@ -2,6 +2,7 @@
 import { reactive, toRefs, ref, watchEffect } from 'vue'
 import {
   mergeImportMap,
+  File,
   Repl,
   useStore,
   useVueImportMap,
@@ -30,11 +31,9 @@ const storeState: Partial<StoreState> = toRefs(
   reactive({
     builtinImportMap: mergeImportMap(builtinImportMap.value, {
       imports: {
-        // Rendering successful
         'element-plus': '/node_modules/element-plus/dist/index.full.min.mjs',
         'element-plus/': '/node_modules/element-plus/',
 
-        // Rendering failed
         // 'element-plus':
         //   'https://cdn.jsdelivr.net/npm/element-plus/dist/index.full.min.mjs',
         // 'element-plus/': 'https://cdn.jsdelivr.net/npm/element-plus/',
@@ -44,19 +43,13 @@ const storeState: Partial<StoreState> = toRefs(
     template: {
       welcomeSFC: welcomeCode,
     },
+    files: {
+      'tsconfig.json': new File('tsconfig.json', tsconfigCode),
+    },
   }),
 )
 const store = useStore(storeState, location.hash)
 watchEffect(() => history.replaceState({}, '', store.serialize()))
-
-async function init() {
-  // const serializedState = location.hash.slice(1)
-  // if (serializedState) {
-  //   store.deserialize(serializedState)
-  // }
-}
-
-init()
 </script>
 
 <template>
@@ -65,7 +58,8 @@ init()
     :store="store"
     :editor="Monaco"
     theme="dark"
-    :preview-theme="true"
-    :clear-console="false"
+    :previewTheme="true"
+    :clearConsole="false"
+    :previewOptions="previewOptions"
   />
 </template>

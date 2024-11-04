@@ -1,17 +1,23 @@
-<script setup>
-import 'element-plus/dist/index.css'
-import 'element-plus/theme-chalk/dark/css-vars.css'
-import { getCurrentInstance } from 'vue'
+<script lang="ts" setup>
 import { ref } from 'vue'
-import ElementPlus from 'element-plus'
-
-const instance = getCurrentInstance()
-instance.appContext.app.use(ElementPlus)
 
 const msg = ref('Hello World!')
 </script>
 
 <template>
   <h1>{{ msg }}</h1>
-  <el-input v-model="msg" />
+
+  <!--
+    1. Error when using import-map with node_modules:
+      Missing ref owner context. 'ref' cannot be used on hoisted VNodes. A VNode with 'ref' must be created inside the render function.
+      at <ElInput modelValue="Hello World!" onUpdate:modelValue=fn>
+      at <Repl>
+
+      Steps to reproduce: src/template/welcome.vue lines 34-35
+
+    2. Rendering failed when using import-map with CDN link.
+
+      Steps to reproduce: src/template/welcome.vue lines 37-38
+  -->
+  <el-input v-model="msg" placeholder="el-input" />
 </template>
